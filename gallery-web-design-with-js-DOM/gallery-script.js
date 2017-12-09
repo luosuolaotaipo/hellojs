@@ -10,5 +10,9 @@ function countBodyChildren(){
     var body_children=document.getElementsByTagName("body")[0];
     alert(body_children.nodeType);
 }
-// window.onload=countBodyChildren();
+function test(){
+    var test=document.getElementById("discription");
+    alert(test.nodeValue);
+}
+window.onload=test();
 

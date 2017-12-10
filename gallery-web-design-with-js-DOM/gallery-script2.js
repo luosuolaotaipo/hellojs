@@ -19,6 +19,7 @@ function selectAPic(){
             description.childNodes[0].nodeValue=this.getAttribute("title");
             return false;
         }
+        //设置按键事件
         // pica[i].onkeypress=pica[i].onclick;
     }
     

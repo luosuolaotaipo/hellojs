@@ -48,7 +48,7 @@ function onLoadEvent(func){
             oldLoadEvent();
             func();
         }
-    }
+    }   
 }
 
 onLoadEvent(addelements);

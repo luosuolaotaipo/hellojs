@@ -45,9 +45,10 @@ function displayAbbreviations(){
 
     var dl=document.createElement("dl");
     // for(var i=0;i<defs.length;i++){
-    //这样遍历键值对数组
+    //IMPORTANT：这样遍历键值对数组
     for(key in defs){
         var dt=document.createElement("dt");
+        //key和defs[key]在构建时是string类型，还是要转成textNode类型
         var dttext=document.createTextNode(key);
         dt.appendChild(dttext);
         var dd=document.createElement("dd");
@@ -58,8 +59,49 @@ function displayAbbreviations(){
     }
     document.body.appendChild(abbrhead);
     document.body.appendChild(dl);
-
+}
+function getLastElementChild(node){
+    var nodelist=node.getElementsByTagName("*");
+    return nodelist[nodelist.length-1];
+    
+}
+function displayQuote(){
+    //获取blockquote
+    var quoteList=document.getElementsByTagName("blockquote");
+    //有无cite属性
+    for(var i=0;i<quoteList.length;i++){
+        var cite =quoteList[i].getAttribute("cite");
+        if(!cite){continue;}
+        else{
+            //建立source节点添加在对应cite中那个blockquote的后面
+            var source=document.createElement("a");
+            // var sourceherf=cite.firstChild.nodeValue;
+            source.setAttribute("herf",cite);
+            var sourcetext=document.createTextNode("source");
+            source.appendChild(sourcetext);
+            // quoteList[i].lastchild.appendChild(source);
+            console.log(quoteList[i].lastChild.nodeType);
+            // getLastElementChild(quoteList[i]).appendChild(source);
+            var childlist=quoteList[i].getElementsByTagName("*");
+            childlist[childlist.length-1].appendChild(source);
+            debugger;
+        }
+    }
 
 }
 
-window.onload=displayAbbreviations;
+
+function onLoadEvent(func){
+    var oldLoadEvent=window.onload;
+    if(typeof oldLoadEvent !="function"){
+        window.onload=func;
+    }
+    else{
+        window.onload=function(){
+            oldLoadEvent();
+            func();
+        }
+    }   
+}
+onLoadEvent(displayAbbreviations);
+onLoadEvent(displayQuote);

@@ -75,19 +75,13 @@ function displayQuote(){
         else{
             //建立source节点添加在对应cite中那个blockquote的后面
             var source=document.createElement("a");
-            // var sourceherf=cite.firstChild.nodeValue;
-            source.setAttribute("herf",cite);
+            source.setAttribute("href",cite);
             var sourcetext=document.createTextNode("source");
             source.appendChild(sourcetext);
-            // quoteList[i].lastchild.appendChild(source);
-            console.log(quoteList[i].lastChild.nodeType);
-            // getLastElementChild(quoteList[i]).appendChild(source);
-            var childlist=quoteList[i].getElementsByTagName("*");
-            childlist[childlist.length-1].appendChild(source);
-            debugger;
+            console.log(quoteList[i].lastChild.nodeType);//quoteList最后一个不是element而是个textnode类型的节点
+            getLastElementChild(quoteList[i]).appendChild(source);
         }
     }
-
 }
 
 

@@ -1,11 +1,14 @@
 function moveElement(elementName,xDestination,yDestinaton,duration){
-    // debugger;
     if(!document.getElementById(elementName)){
         console.log("into move element");
         return false;
     }
     else{
         var elem = document.getElementById(elementName);
+        // elem.movefalg
+        if(elem.movefalg){
+            clearTimeout(elem.movefalg)
+        }
         var xPos=elem.style.left;//如果没有设置，没有默认值可以取到
         var yPos=elem.style.top;
         xPos=parseInt(xPos);
@@ -29,9 +32,10 @@ function moveElement(elementName,xDestination,yDestinaton,duration){
         elem.style.left=xPos+"px";
         elem.style.top=yPos+"px";
         console.log(elem.style.left);
-        setTimeout(() => {
+        elem.movefalg = setTimeout(() => {
             moveElement(elementName,xDestination,yDestinaton,duration)
         }, duration);
+        
     }
 }
 
@@ -39,7 +43,6 @@ function movePic(){
     if(!document.getElementsByTagName("ol")){return false;}
     else{
         var link=document.getElementsByTagName("ol");
-        // var links=link.firstChild.getElementsByTagName("a");
         var links=link[0].getElementsByTagName("a");
         links[0].onmouseover=function(){
             console.log("into mouseover");

@@ -114,6 +114,49 @@ var properties=['lastName','firstName','age','constructor']
 for(i=0;i<properties.length;i++){
     console.log(another_stooge[properties[i]]);
 }
+    
+console.log("==========4#函数字面量==========")
+var add =  function addFun(a,b){
+    return a+b;
+}
+console.log("===========4#函数字面量-闭包???===========");
+var father = function(){
+    var fatherVar = 0
+    var child = function(a){
+        return fatherVar+a;
+    }
+}
+// console.log(father.child(1));
+console.log("===========4#调用-方法调用(函数作为对象的属性)==============");
+var myOject={
+    value:0,
+    increment:function(inc){
+        this.value += typeof inc ==='number'?inc:1;
+    }
+}
+myOject.increment(2);
+console.log(myOject.value);
+console.log("============4#调用-函数调用=================");
+var value = 233;
+myOject['double']=function(){
+    var helper = function(){
+        this.value = add(this.value,this.value);
+        console.log(this.value);//NaN，此时this指代global
+    }
+    helper();//函数的形式调用helper
+}
+myOject.double();
+console.log(myOject.value);//value还是2
+//解决：用that
+myOject['double2']=function(){
+    var that  = this;
+    var helper = function(){
+        that.value = add(that.value,that.value);
+    }
+    helper();
+}
+myOject.double2();
+console.log(myOject.value);//value=4
 
 console.log('=========4#构造器调用=========')
 var Quo = function(string){

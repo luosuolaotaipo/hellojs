@@ -158,7 +158,7 @@ myOject['double2']=function(){
 myOject.double2();
 console.log(myOject.value);//value=4
 
-console.log('=========4#构造器调用=========')
+console.log('=========4#构造器调用 new一个函数对象=========')
 var Quo = function(string){
     this.status = string;
 }
@@ -173,3 +173,61 @@ console.log(myQuo.get_status);
 console.log(myQuo.get_status());
 
 console.log('=========4#apply调用==========')
+var array = [3,4];
+
+function selfadd(a){
+    return this+a;
+}
+var sum = add.apply(null,[3,4])
+var sum2 = selfadd.apply(1,[5]);
+console.log('sum:'+sum,'sum2:'+sum2);
+var statusObject = {
+    answer:'OK'
+};
+var statusResult = Quo.prototype.get_status.apply(statusObject);
+console.log(statusResult);
+statusObject.status = 'OK';
+statusResult = Quo.prototype.get_status.apply(statusObject);
+//相当于statusObject.get_status(),get_status()里的this就指向statusObject
+//而没有status的statusObject就返回undefined了
+console.log(statusResult);
+console.log("======4.4#参数 arguments不是一个数组但有length=====");
+
+var argFun = function(){
+    var i, sum =0;
+    for(i=0;i<arguments.length;i++){
+        sum += arguments[i];
+        console.log(arguments[i]);
+    }
+    return sum;
+}
+console.log(argFun(1,2,3,4));
+
+console.log('===========4.7#给类型增加方法==========');
+Function.prototype.myMethod = function(name,func){
+    this.prototype[name]=func;
+    return this;
+}
+Number.myMethod('integer',function(){
+    return Math[this<0?'ceiling':'floor'](this);//integer方法给Number类型取整
+});
+console.log(3.5.integer());//3.5这个number调用Number的方法：integer
+String.myMethod('trim',function(){
+    return this.replace(/^\s+|\s+$/g,'');
+})
+console.log('hello '.trim()+'world');
+
+console.log('============4.8递归==============');
+//汉诺塔
+function hanoi(disc,src,aux,dst){
+    if(disc>0){
+        hanoi(disc-1,src,dst,aux);
+        console.log('Move disc '+ disc+' from '+src+' to '+dst);
+        hanoi(disc-1,aux,src,dst);
+    }
+}
+hanoi(5,'Src','Aux','Dst');
+//遍历树节点
+
+console.log('============4.9作用域==============');
+

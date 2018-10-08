@@ -230,4 +230,134 @@ hanoi(5,'Src','Aux','Dst');
 //遍历树节点
 
 console.log('============4.9作用域==============');
+var scope = function(){
+    var a=3,b=5;
+    var scopeInner = function(){
+        var b =7, c=11;
+        a += b+c;
+        console.log('socpeInner: a: '+a,'b: '+b,'c: '+c);//a=21, b=7,c=11;
+    };
+    scopeInner();
+    console.log('Outside of scopeInner: a: '+a,'b: '+b);
+};
+scope();
 
+console.log('============4.10 闭包============');
+//内部函数不能访问外部的this和argunments
+Quo.prototype.outter = function(argus){
+    
+    console.log(argus);
+    var inner = function(){
+        console.log('inner status:'+ this.status); //undefined=>不能访问this
+        console.log('inner arguments:', argus++);
+    }
+    inner();
+    console.log('outter status:'+ this.status);//statusArgu 传入的status
+}
+var myQuo2 = new Quo('statusArgu');
+myQuo2.status;
+myQuo2.outter(223);
+
+var myObject  = function(){
+    var value = 1212;
+    return{
+        increment:function(inc){
+            value += typeof inc === 'number'?inc:1;
+        },
+        getValue:function(){
+            return value
+        }
+    }
+}();//这个括号表示立刻调用，没有很好理解
+myObject.increment(2);
+console.log(myObject.getValue());
+
+var QuoClosure = function(num){
+    console.log(num);
+    return{
+        get_status:function(){
+            return ++num;
+        }
+    }
+}
+var closureRes1 = QuoClosure(3);
+// console.log(closureRes1);
+var closureRes2 = closureRes1.get_status()//仍然能访问到传进来的参数
+console.log(closureRes2);
+
+console.log('=======4.12模块======')
+//私有映射表
+String.myMethod('deentityify',function(){
+    var entity={
+        quot:'"',
+        lt:'<',
+        gt:'>'
+    };//这个映射表只有deentityify方法可以访问，此函数私有，但是可以为这个函数所用
+    return function(){
+        return this.replace(/&([^&;]+);/g,function(a,b){
+            var r = entity[b];
+            return typeof r === 'string'?r:a;
+        });
+    };
+}());
+console.log('&lt;&quot;&gt;'.deentityify());//<"">如果上一行没有用调用运算符（）的话，返回的就是一个function对象
+//序列号不重复生成,单例
+var seq_maker = function(){
+    var prefix = '';
+    var seq = 0;
+    return {
+        setPrefix:function(p){
+            prefix = p;
+        },
+        setSeq: function(s){
+            seq = s;
+        },
+        genSeq: function(){
+            return prefix + seq++;
+        }
+    }
+}
+var mySeq = seq_maker();
+mySeq.setPrefix('Q');
+mySeq.setSeq(1000);
+var mySeqSeri = mySeq.genSeq();
+console.log(mySeqSeri);//Q1000
+console.log(mySeq.genSeq());//Q1001
+//记忆 fibonacci
+var memoizer = function(memo,fundamental){
+    var shell = function(n){
+        var result = memo[n];
+        if(typeof result !== 'number'){
+            result = fundamental(shell,n);
+            memo[n]=result;
+        }else{
+            return result;
+        }
+    }
+    return shell;
+}
+var fibonacci = memoizer([0,1],function(shell,n){
+    return shell(n-1)+shell(n-2);
+})
+var fibResult  = fibonacci(3);
+console.log(fibResult);
+
+console.log('=======4.14套用========');
+var testarr = [1,2,3];
+console.log(testarr.concat(['a','n']));
+// Function.myMethod('curry',function(){
+//     var args = arguments, that =  this;
+//     return function(){
+//         return that.apply(null,args.concat(arguments))
+//          //args.concat is not a function
+//     }
+// });
+Function.myMethod('curry',function(){
+    var slice = Array.prototype.slice;
+    var args = slice.apply(arguments),that=this;
+    return function(){
+        return that.apply(null,args.concat(slice.apply(arguments)));
+    }
+})
+var addl = add.curry('7');
+console.log(addl(1));

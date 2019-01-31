@@ -41,9 +41,3 @@ button {
   float: left;
   cursor: pointer;
 }
-
-.banner{
-  display: block;
-  background-color: blueviolet;
-  width: 100%
-}

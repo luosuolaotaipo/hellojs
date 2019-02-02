@@ -211,3 +211,219 @@ var foo = function(){
     console.log('a:'+a,'b:'+b);
 }
 foo();
+var myQuo2 = new Quo('statusArgu');
+myQuo2.status;
+myQuo2.outter(223);
+
+var myObject  = function(){
+    var value = 1212;
+    return{
+        increment:function(inc){
+            value += typeof inc === 'number'?inc:1;
+        },
+        getValue:function(){
+            return value
+        }
+    }
+}();//这个括号表示立刻调用，没有很好理解
+myObject.increment(2);
+console.log(myObject.getValue());
+
+var QuoClosure = function(num){
+    console.log(num);
+    return{
+        get_status:function(){
+            return ++num;
+        }
+    }
+}
+var closureRes1 = QuoClosure(3);
+// console.log(closureRes1);
+var closureRes2 = closureRes1.get_status()//仍然能访问到传进来的参数
+console.log(closureRes2);
+
+console.log('=======4.12模块======')
+//私有映射表
+String.myMethod('deentityify',function(){
+    var entity={
+        quot:'"',
+        lt:'<',
+        gt:'>'
+    };//这个映射表只有deentityify方法可以访问，此函数私有，但是可以为这个函数所用
+    return function(){
+        return this.replace(/&([^&;]+);/g,function(a,b){
+            var r = entity[b];
+            return typeof r === 'string'?r:a;
+        });
+    };
+}());
+console.log('&lt;&quot;&gt;'.deentityify());//<"">如果上一行没有用调用运算符（）的话，返回的就是一个function对象
+//序列号不重复生成,单例
+var seq_maker = function(){
+    var prefix = '';
+    var seq = 0;
+    return {
+        setPrefix:function(p){
+            prefix = p;
+        },
+        setSeq: function(s){
+            seq = s;
+        },
+        genSeq: function(){
+            return prefix + seq++;
+        }
+    }
+}
+var mySeq = seq_maker();
+mySeq.setPrefix('Q');
+mySeq.setSeq(1000);
+var mySeqSeri = mySeq.genSeq();
+console.log(mySeqSeri);//Q1000
+console.log(mySeq.genSeq());//Q1001
+//记忆 fibonacci
+var memoizer = function(memo,fundamental){
+    var shell = function(n){
+        var result = memo[n];
+        if(typeof result !== 'number'){
+            result = fundamental(shell,n);
+            memo[n]=result;
+        }else{
+            return result;
+        }
+    }
+    return shell;
+}
+var fibonacci = memoizer([0,1],function(shell,n){
+    return shell(n-1)+shell(n-2);
+})
+var fibResult  = fibonacci(3);
+console.log(fibResult);
+
+console.log('=======4.14套用========');
+var testarr = [1,2,3];
+console.log(testarr.concat(['a','n']));
+// Function.myMethod('curry',function(){
+//     var args = arguments, that =  this;
+//     return function(){
+//         return that.apply(null,args.concat(arguments))
+//          //args.concat is not a function
+//     }
+// });
+Function.myMethod('curry',function(){
+    var slice = Array.prototype.slice;
+    var args = slice.apply(arguments),that=this;
+    return function(){
+        return that.apply(null,args.concat(slice.apply(arguments)));
+    }
+})
+var addl = add.curry('7');
+console.log(addl(1));
+console.log('=========伪类=========');
+//1.构造一个对象
+var Mammal = function(name){
+    this.name = name;
+}
+Mammal.prototype.getName = function(){
+    return this.name;
+}
+Mammal.prototype.says = function(){
+    return this.saying || '';
+}
+//2.cat 对象像伪类继承Mammal
+var Cat = function(name){
+    this.name = name+name;
+    this.saying = 'Meow';
+}
+Cat.prototype = new Mammal();
+Cat.prototype.purr = function(n){
+    var i, s = '';
+    for(i=0;i<n;i++){
+        if(s){
+            s += '-';
+        }
+        s += 'r'
+    }
+    return s;
+}
+var myCat = new Cat('Kitty');
+console.log(myCat.getName());
+console.log(myCat.says());
+console.log(myCat.purr(3));
+
+console.log('=======5.3原型=========')
+// var myCatTwo = Object.beget(Mammal);
+var MammalTwo = {
+    name: 'herb the mammal',
+    getName: function(){
+        return this.name;
+    },
+    says:function(){
+        return this.saying || ''
+    }
+}
+var myCatTwo = Object.beget(MammalTwo);
+myCatTwo.name = 'Garfield';
+myCatTwo.saying = 'miao';
+myCat.getName = function(){
+    return this.name+this.name;
+};
+console.log(myCatTwo.getName())//???
+console.log(MammalTwo.getName()) 
+
+console.log('=======6.5数组=======');
+var arr = [1,2,4];
+var isArray = function(val){
+    return val 
+        && typeof val === 'object'
+        && typeof val.length === 'number'
+        && typeof val.splice === 'function'
+        && !(value.propertyIsEnumerable('length'));
+}
+console.log(isArray(arr));
+var fakeArr = {
+    '1':1,
+    '2':2,
+    '3':4
+}
+console.log(isArray(fakeArr))
+
+console.log('=======7 正则======');
+var url = 'http://www.ora.com:80/goodparts?q#fragment';
+var parseUrl = /^(?:([a-z]+):)/
+//匹配http开头： ^开头,?:exp 非捕获型分组,[a-z]a-z区间;+重复一次或多次
+console.log(parseUrl.exec(url))
+
+//匹配斜杠/
+parseUrl = /(\/{0,3})/
+console.log(parseUrl.exec(url));
+
+//匹配主机域名
+parseUrl = /^(?:([a-z]+):)(\/{0,3})([0-9.\-A-Za-z]+)/
+//由一个或多个数字,点.,短划线-（此处转义），字母构成
+console.log(parseUrl.exec(url));
+
+//匹配端口
+// parseUrl =/(\:\d+)/
+parseUrl =/(?::\d+)/
+console.log(parseUrl.exec(url));
+parseUrl = /^(?:([a-z]+):)(\/{2})([0-9.\-A-Za-z]+)(?::(\d+))/
+console.log(parseUrl.exec(url));
+//匹配除？和#开头的字符
+parseUrl = /([^?#]*)/
+console.log(parseUrl.exec(url));
+parseUrl = /^([a-z]+:)(\/{0,3})([0-9A-Z.a-z\-]+)(:\d+)(\/[^?#]*)/
+console.log(parseUrl.exec(url));
+//匹配?开头且有0个或多个非#字符
+parseUrl = /\?([^#]*)/
+console.log(parseUrl.exec(url));
+parseUrl = /^(?:([a-z]+):)?(\/{0,3})([A-Za-z0-9.\-]+)(?::(\d+))(?:\/([^?#]*))?(?:\?([^#]*)(?:#(.*)))$/
+console.log(parseUrl.exec(url));
+
+/**
+ * /exp/g 全局
+ * /exp/i 大小写不敏感
+ * /exp/m 多行，^和$能匹配结束符
+ *  */
+
+//  var newParsUrl = new RegExp("(/{0,3})");
+//  console.log(newParsUrl.exec(url));

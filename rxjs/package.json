@@ -1,0 +1,22 @@
+{
+  "name": "hellorxjs",
+  "version": "1.0.0",
+  "description": "rx concept",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luosuolaotaipo/hellojs.git"
+  },
+  "author": "luosuolaotaipo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/luosuolaotaipo/hellojs/issues"
+  },
+  "homepage": "https://github.com/luosuolaotaipo/hellojs#readme",
+  "dependencies": {
+    "rxjs": "^6.3.2"
+  }
+}

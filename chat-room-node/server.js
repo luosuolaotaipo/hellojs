@@ -1,6 +1,6 @@
 var http = require('http');
 var fs = require('fs');
-var path = require('fs');
+var path = require('path');
 var mime = require('mime');//mime 类型<=>文件拓展名
 
 var chatServer = require('./lib/chat-server')
@@ -14,11 +14,12 @@ function send404(response){
 }
 
 function sendFile(response,filePath,fileContent){
-    response.writeHead(200,{'Content-type':mime.loopup(path.basename(filePath))});
+    response.writeHead(200,{'Content-type':mime.getType(path.basename(filePath))});
     response.end(fileContent);
 }
 
 function serveStatic(response,cache,absPath){
+    // 读取文件，优先读取内存中的文件
     if(cache[absPath]){
         sendFile(response,absPath,cache[absPath]);
     }else{

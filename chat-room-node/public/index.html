@@ -1,31 +1,35 @@
 <html>
-    <head>
-        <title>chat room</title>
-        <script src="/lib/jquery-3.3.1.js" type="text/javascript"></script>
-        <script src="js/chat-ui.js" type="text/javascript"></script>
-        <script src="js/chat.js" type="text/javascript"></script>
-        <script src="/node_modules/socket.io-client/dist/socket.io.js" type="text/javascript"></script>
-        <link ref="stylesheet" href="style.css"/>
-        <!-- <link rel="stylesheet" type="text/css" href="/study/style.css" /> -->
-    </head>
-    <body>
-        <div id="content">
-            <div id="room">
-                <div id="room-list"></div>
-                <div id="messages"></div>
-            </div>
-            <form id="send-form">
-                <input id="send-message"/>
-                <input id="send-button" type="submit" value="send"/>
-                <div id="help">
-                    chat commands
-                    <ul>
-                        <li>change nickname:</li>
-                        <li>join/creat room</li>
-                    </ul>
-                </div>
-            </form>
-        </div>
-    </body>
 
+<head>
+    <title>chat room</title>
+    <!-- <script src="js/lib/jquery-3.3.1.js" type="text/javascript"></script> -->
+    <script src="http://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+    <script src="js/chat.js" type="text/javascript"></script>
+    <script src="js/socket.io.slim.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="stylesheets/style.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="/study/style.css" /> -->
+</head>
+
+<body>
+    <div id="content">
+        <div id="room"></div>
+        <div id="messages"></div>
+        <div id="room-list"></div>
+
+        <form id="send-form">
+            <input id="send-message" />
+            <input id="send-button" type="submit" value="send" />
+            <div id="help">
+                chat commands
+                <ul>
+                    <li>change nickname:</li>
+                    <li>join/creat room</li>
+                </ul>
+            </div>
+        </form>
+    </div>
+    <script src="js/chat-ui.js" type="text/javascript"></script>
+</body>
 </html>

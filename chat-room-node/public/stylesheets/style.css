@@ -1,0 +1,19 @@
+body{
+    margin:50px;
+}
+#currentRoom{
+    background-color: beige;
+    margin-bottom: 20px;
+    width:100%;
+    padding:8px;
+}
+#room{
+    min-height: 300px;
+}
+#room>#messages{
+    background-color: burlywood;
+    flex-grow: 3;
+}
+#room>#room-list{
+    flex-grow: 1;
+}

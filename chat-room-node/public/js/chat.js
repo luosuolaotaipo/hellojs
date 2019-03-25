@@ -38,8 +38,8 @@ class chat{
                 message='Unrecognized command';
                 break;
             }
-            return message;
         }
+        return message;
     }
 
     

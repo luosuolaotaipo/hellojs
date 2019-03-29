@@ -1,0 +1,1 @@
+export default {'name':'a','age':10}

@@ -1,0 +1,44 @@
+webpack                 核心
+webpack-cli             命令行
+webpack-dev-server      dev-server核心
+
+--------------------------------------------------------------------------------
+
+操作HTML：
+plugin
+
+html-webpack-plugin
+输出HTML
+
+{
+  ...,
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: '...'
+    })
+  ]
+}
+
+--------------------------------------------------------------------------------
+
+动态配置
+webpack.config.js
+
+//静态
+module.exports={
+
+};
+
+//动态
+module.exports=function (env, argv){
+  return {
+    //共用
+    entry: '...',
+    ...
+
+    //独立
+    ...env.production?require('./config/webpack.production'):require('./config.webpack.development')
+  }
+};
+
+--------------------------------------------------------------------------------

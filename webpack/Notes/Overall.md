@@ -46,9 +46,21 @@ let p = import('./module.js'); //p是一个promise
 ```
 + webpack 编译配置
   + module.exports={}为CMD模型，NodeJs支持CMD模型
-  + mode:模式
+  + mode:模式。设置process.env.NODE_ENV,node环境变量
+    + none 不优化
+    + development 输出调试信息，
+    + production 最高优化，启用压缩，忽略错误
   + entry:入口，从一个或者多个js开始编译，用到即编译进去
-  + output:出口,将打包后的文件放置在path下(绝对路径),并以filename命名
+    + 单入口--适用于SPA(单页应用)
+    + 多入口--适用于MPA(多页应用)
+  + output:出口,将打包后的文件放置在path下(绝对路径),并以filename命名  
+    ```
+    {
+      path://绝对路径，可以用path.resolve()
+      filename://文件名
+    }
+    ```
+
 
 ## Webpack
 
@@ -63,35 +75,35 @@ let p = import('./module.js'); //p是一个promise
 npm i -g webpack
 npm i -g webpack-cli
 
-```flow
-st=>start: Start|past:>http://www.google.com[blank]
-e=>end: End:>http://www.google.com
-op1=>operation: get_hotel_ids|past
-op2=>operation: get_proxy|current
-sub1=>subroutine: get_proxy|current
-op3=>operation: save_comment|current
-op4=>operation: set_sentiment|current
-op5=>operation: set_record|current
 
-cond1=>condition: ids_remain空?
-cond2=>condition: proxy_list空?
-cond3=>condition: ids_got空?
-cond4=>condition: 爬取成功??
-cond5=>condition: ids_remain空?
+### loader
+让webpack能处理非js或非JSON以外的数据
+！记得打包入口能够到目标文件
 
-io1=>inputoutput: ids-remain
-io2=>inputoutput: proxy_list
-io3=>inputoutput: ids-got
+* npm i style-loader css-loader
 
-st->op1(right)->io1->cond1
-cond1(yes)->sub1->io2->cond2
-cond2(no)->op3
-cond2(yes)->sub1
-cond1(no)->op3->cond4
-cond4(yes)->io3->cond3
-cond4(no)->io1
-cond3(no)->op4
-cond3(yes, right)->cond5
-cond5(yes)->op5
-cond5(no)->cond3
-op5->e
+* webpack.config.js中的配置
+```
+module.exports={
+  ...,
+  entry,
+  output,
+  module:{
+    rules:[
+      // 配置loader
+      
+      // 单loader
+      {test:/\.css$/i,use:'css-loader'},
+
+      // 多loader,从后往前读。将css-loader处理好的结果给style-loader,最后给webpack
+      {test:/\.css$/i,use:['style-loader','css-loader']},
+    ]
+  }
+}
+```
+
+* css-loader
+读取css,包装成js字符串
+
+* style-loader
+能将字符串输出到style标签中

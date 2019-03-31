@@ -1,0 +1,1 @@
+setTimeout(()=>{console.log('main')},1000)

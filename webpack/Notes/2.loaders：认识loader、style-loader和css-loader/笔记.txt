@@ -1,0 +1,5 @@
+loader：
+解析js以外的东西
+
+css-loader    读取css，输出js字符串
+style-loader  输出字符串<style>

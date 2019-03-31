@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script>
+    window.onload=function (){
+      let oBtn=document.getElementById('btn1');
+      let oTxt=document.getElementById('txt1');
+
+      oBtn.onclick=function (){
+        oTxt.value=oTxt.value.replace(/^/gm, '  ');
+      };
+    };
+    </script>
+  </head>
+  <body>
+    <textarea id="txt1" style="width:600px; height:300px;"></textarea>
+    <input type="button" value="按钮" id="btn1">
+  </body>
+</html>

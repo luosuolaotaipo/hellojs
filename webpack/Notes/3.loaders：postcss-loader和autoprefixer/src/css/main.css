@@ -1,0 +1,10 @@
+.box {
+  width:200px; height:200px; background:#CCC;
+
+  transform: rotate(0deg);
+  transition:1s all ease;
+}
+
+.box:hover {
+  transform: rotate(90deg);
+}

@@ -1,0 +1,19 @@
+安装
+npm i -g webpack-cli
+
+配置
+webpack.config.js：
+1.mode:
+  none          不优化
+  development   输出调试信息，设置process.env.NODE_ENV
+  production    最高优化，启用压缩、忽略错误
+
+2.entry：入口
+  单入口——SPA
+  多入口——MPA
+
+3.output：输出
+  {
+    path: 路径——必须是绝对路径   path.resolve
+    filename: 文件名
+  }

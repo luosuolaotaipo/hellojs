@@ -1,0 +1,12 @@
+style-loader                    输出样式<style></style>
+css-loader                      解析css文件、import
+postcss-loader+autoprefixer     加前缀
+less-loader                     编译less
+
+file-loader/url-loader          引入文件(图片、字体)
+
+babel-loader                    ES6
+
+devtool: 'source-map'
+
+dev-server

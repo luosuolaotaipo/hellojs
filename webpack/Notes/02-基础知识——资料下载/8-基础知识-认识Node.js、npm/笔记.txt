@@ -1,0 +1,43 @@
+npm——nodejs package manager
+
+npm install -g cnpm --registry=https://registry.npm.taobao.org
+npm install xxx
+
+1.定义模块
+  exports
+  module
+
+2.引入模块
+  require
+
+--------------------------------------------------------------------------------
+
+require('http')         系统模块/?
+require('/xx/xx/http')  自定义模块
+
+--------------------------------------------------------------------------------
+
+1.输出东西
+  exports.xx=xxx;
+  exports.xx=xxx;
+
+  module.exports=模块;
+
+  module.exports={
+    ...
+  };
+  module.exports=function (){};
+  module.exports=class {};
+
+2.引入
+  require('name')     系统node_modules/本地node_modules/父目录node_modules/...
+  require('./name')   具体地址
+  require('/usr/local/lib/my')
+
+--------------------------------------------------------------------------------
+
+npm以外，其他包管理器：
+1.cnpm——企业npm
+2.yarn——facebook
+
+--------------------------------------------------------------------------------

@@ -111,5 +111,49 @@ module.exports={
 ### plugin
 * postcss-loader
 给css加浏览器前缀
+1. postcss.config.js文件
+```
+const autoprefixer = require('autoprefixer')
+module.exports={
+    plugins:[
+        autoprefixer
+    ]
+}
+```
+2.作为options用在loader上
+```
+{test:/\.css$/,use:[
+    {loader:'style-loader'},
+    {loader:'css-loader'},
+    {
+        loader:'postcss-loader',
+        options:{
+            plugins:[
+                require('autoprefixer')
+            ]
+        }
+    }
+]}
+```
 * autoprefixer
-看浏览器占有率(>5%)
+看浏览器占有率(>5%),则会把这个css兼容选项加上
+配置
+1. .browserslistrc
+```
+> 1%
+last 5 version
+```
+用户量大于1%，最后五个版本
+2. package.json中
+```
+browserslist:[
+  "last 5 version",
+  "> 1%"
+]
+```
+
+* file-loader
+
+## npx
+和npm差不多，区别在不是包管理。而是执行包
+* 查看autoprefixer的信息：``npx autoprefixer --info``

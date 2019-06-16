@@ -1,0 +1,20 @@
+{
+    "name": "server",
+    "version": "1.0.0",
+    "description": "fake http request",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node app.js"
+    },
+    "keywords": [
+        "rxjs",
+        "angular",
+        "express"
+    ],
+    "author": "huimin",
+    "license": "MIT",
+    "dependencies": {
+        "express": "^4.16.4"
+    }
+}

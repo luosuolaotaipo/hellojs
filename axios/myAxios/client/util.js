@@ -20,6 +20,23 @@ function deepCopy(objSrc){
 
 }
 
+// TODO:数组？
+function deepMerge(target,src){
+    var res = deepCopy(target);
+    for(var property in src){
+        var resVal = res[property];
+        var srcVal = src[property];
+        if(isObject(srcVal)&&isObject(resVal)){
+            res[property] = deepMerge(resVal,srcVal);
+        }else if(isObject(srcVal)){
+            res[property] = deepCopy(srcVal);
+        }else{
+            res[property] = srcVal;
+        }
+    }
+    return res;
+}
+
 function mergeConfig(defaultConfig,newConfig){
     // 不能直接修改defaultConfig,用深拷贝
      var config = deepCopy(defaultConfig);
@@ -32,14 +49,13 @@ function mergeConfig(defaultConfig,newConfig){
              config[property] = newConfig[property];
          }else{
              if(isObject(newConfig[property])){
-                 config[property] = mergeConfig(config[property],newConfig[property]);
+                 config[property] = deepMerge(config[property],newConfig[property]);
              }else{
                  config[property] = newConfig[property];
              }
          }
      }
      return config;
-
 }
 
 export default {

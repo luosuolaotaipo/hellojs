@@ -19,12 +19,26 @@ function myAxios(config) {
  */
 myAxios.prototype.request = function(config){
     // 把传入config和this.config进行必要的合并
-    var config = utils.mergeConfig(this.config,config)
-    var xhr = new XMLHttpRequest();
-    xhr.onload = function(){
-        console.log(this.responseText);
-    }
-    xhr.open(config.method,config.url,true);
-    xhr.send();
+    var config = utils.mergeConfig(this.config,config);
+    console.log(config);
+    // return new Promise(function(res,rej){
+    //     var xhr = new XMLHttpRequest();
+    //     xhr.onload = function(){
+    //        res(this.responseText);
+    //     }
+    //     xhr.open(config.method,config.url,true);
+    //     xhr.send();
+        
+    // })
+    return new Promise((res,rej)=>{
+        var xhr = new XMLHttpRequest();
+        xhr.onload = ()=>{
+        //    res(this.responseText); //指向myAxios
+            res(xhr.responseText);
+        }
+        xhr.open(config.method,config.url,true);
+        xhr.send();
+    })
+   
 }
 export default myAxios;

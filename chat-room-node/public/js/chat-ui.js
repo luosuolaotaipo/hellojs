@@ -24,8 +24,9 @@ function processUserInput(chatApp,socket){
 
 var socket = io.connect();
 $(document).ready(()=>{
-    var chatApp = new chat();
+    var chatApp = new chat(socket);
     socket.on('nameResult',(result)=>{
+        // server端assignGuestName 发送的nameResult事件
         var message;
         if(result.success){
             message = `You're know as ${result.name} .`;

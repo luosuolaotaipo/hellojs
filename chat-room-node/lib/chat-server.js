@@ -15,6 +15,9 @@ exports.listen=function(server){
         handleRoomJoin(socket);
         handleMessageBroadcasting(socket);
         handleClientDisconnection(socket);
+        socket.on('rooms',()=>{
+            socket.emit('rooms',IO.sockets.manager.rooms);
+        })
     })
 }
 /**
@@ -44,7 +47,7 @@ function joinRoom(socket,room){
     socket.broadcast.to(room).emit('message',{
         text:nickNames[socket.id]+'has joined'+room
     });//广播
-    var usersInRoom = IO.sockets.clients(room);
+    var usersInRoom = IO.of('/').in(room).clients;
     if(usersInRoom.length>1){
         var usersInRoomMsg = 'Users currently in room are:';
         usersInRoom.map((item)=>{
@@ -62,14 +65,14 @@ function joinRoom(socket,room){
 }
 
 function handleNameChangeAttempts(socket,nickname,nameused){
-    socket.on('nameAttempt',(name)=>{
-        if(name.indexOf('Guest')==0){
+    socket.on('nameAttempt',(name)=>{ // 添加nameAttempt事件监听？？
+        if(name.indexOf('Guest')==0){ //昵称不能以guest开头
             socket.emit('ChangeNameResult',{success:false,message:'Names cannot begin with "Guest"'});
         }else{
             if(nameused.indexOf(name)==-1){
                 var previousName = nickname[socket.id];
                 var preNameIndex = nameused.indexOf(previousName);
-                delete nameused(preNameIndex);
+                delete nameused(preNameIndex);//删除原来的昵称
                 nickname[socket.id]=name;
                 nameused.push(name);
                 socket.emit('ChangeNameResult',{success:true,name:name});
@@ -86,17 +89,21 @@ function handleMessageBroadcasting(socket){
         socket.broadcast.to(message.room).emit('message',{text:nickNames[socket.id]+': '+message.text})//这里是一个message事件还是两个不同的？
     })
 }
-
+/**
+ * 
+ * @param {*} socket 
+ * 加入已有房间，如果没有就创建一个
+ */
 function handleRoomJoin(socket){
     socket.on('join',(room)=>{
         socket.leave(currentRoom[socket.id]);
-        joinRoom(socket,room.newRoom)
+        joinRoom(socket,room.newRoom);//new room???
     })
 }
 
 function handleClientDisconnection(socket){
     socket.on('disconnect',()=>{
-        var namemeIndex = nameUsed.indexOf(nickNames[socket.id]);
+        var nameIndex = nameUsed.indexOf(nickNames[socket.id]);
         delete nameUsed[nameIndex];
         delete nickNames[socket.id];
     })
